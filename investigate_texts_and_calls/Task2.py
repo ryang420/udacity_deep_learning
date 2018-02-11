@@ -3,6 +3,7 @@
 你将在以后的课程中了解更多有关读取文件的知识。
 """
 import csv
+
 with open('texts.csv', 'r') as f:
     reader = csv.reader(f)
     texts = list(reader)
@@ -23,3 +24,24 @@ September 2016.".
 如果键不存在于字典内，将此键加入字典，并将它的值设为给定值。
 """
 
+calls_time = {}
+max_call_time = 0
+max_call = ''
+
+for call in calls:
+    if call[0] not in calls_time:
+        calls_time[call[0]] = int(call[-1])
+    else:
+        calls_time[call[0]] += int(call[-1])
+
+    if call[1] not in calls_time:
+        calls_time[call[1]] = int(call[-1])
+    else:
+        calls_time[call[1]] += int(call[-1])
+
+for call in calls_time:
+    if calls_time[call] > max_call_time:
+        max_call_time = calls_time[call]
+        max_call = call
+
+print('{} spent the longest time, {} seconds, on the phone during September 2016.'.format(max_call,max_call_time))
