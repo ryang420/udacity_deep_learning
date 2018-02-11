@@ -25,4 +25,12 @@ with open('calls.csv', 'r') as f:
 <list of numbers>
 电话号码不能重复，每行打印一条，按字典顺序排序后输出。
 """
+sales_call = set()
+for call in calls:
+    if call[0][:3] == '140':
+        sales_call.add(call[0])
 
+sales_call_list = list(sales_call)
+sales_call_list.sort()
+
+print('These numbers could be telemarketers:\n' + '\n'.join(sales_call_list))
