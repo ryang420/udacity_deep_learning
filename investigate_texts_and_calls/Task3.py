@@ -39,3 +39,32 @@ with open('calls.csv', 'r') as f:
 to other fixed lines in Bangalore."
 注意：百分比应包含2位小数。
 """
+
+call_set = set()
+for call in calls:
+    if call[0][0:5] == '(080)':
+        zone_code_index = call[1].find(')')
+        mobile_prefix_index = call[1].find(' ')
+
+        if zone_code_index != -1:
+            call_set.add(call[1][1:zone_code_index])
+
+        if mobile_prefix_index != -1:
+            call_set.add(call[1][:mobile_prefix_index])
+
+call_list = list(call_set)
+call_list.sort()
+print('The numbers called by people in Bangalore have codes:\n' + '\n'.join(call_list))
+
+call_from_bangalore = 0
+call_to_bangalore = 0
+for call in calls:
+    if call[0][0:5] == '(080)':
+        call_from_bangalore += 1
+        if call[1][0:5] == '(080)':
+            call_to_bangalore += 1
+
+call_ratio = call_to_bangalore / call_from_bangalore * 100
+
+print('%.2f' % call_ratio
+      + ' percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.')
