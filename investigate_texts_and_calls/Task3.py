@@ -41,30 +41,24 @@ to other fixed lines in Bangalore."
 """
 
 call_set = set()
+ban_calls = []
+ban_call_ban = []
 for call in calls:
     if call[0][0:5] == '(080)':
-        zone_code_index = call[1].find(')')
-        mobile_prefix_index = call[1].find(' ')
+        ban_calls.append(call[1])
 
-        if zone_code_index != -1:
-            call_set.add(call[1][1:zone_code_index])
+for ban in ban_calls:
+    if ban[0] == '(':
+        index = ban.find(')')
+        call_set.add(ban[1:index])
+        if ban[1:index] == '080':
+            ban_call_ban.append(ban)
+    if ban.find(' ') != -1:
+        call_set.add(ban[:ban.find(' ')])
 
-        if mobile_prefix_index != -1:
-            call_set.add(call[1][:mobile_prefix_index])
+print('The numbers called by people in Bangalore have codes:\n' + '\n'.join(sorted(list(call_set))))
 
-call_list = list(call_set)
-call_list.sort()
-print('The numbers called by people in Bangalore have codes:\n' + '\n'.join(call_list))
-
-call_from_bangalore = 0
-call_to_bangalore = 0
-for call in calls:
-    if call[0][0:5] == '(080)':
-        call_from_bangalore += 1
-        if call[1][0:5] == '(080)':
-            call_to_bangalore += 1
-
-call_ratio = call_to_bangalore / call_from_bangalore * 100
+call_ratio = len(ban_call_ban) / len(ban_calls) * 100
 
 print('%.2f' % call_ratio
       + ' percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.')
