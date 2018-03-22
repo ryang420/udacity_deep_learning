@@ -31,6 +31,16 @@ class Vector(object):
         new_coordinates = [x * c for x in self.coordinates]
         return new_coordinates
 
+    def magnitude(self):
+        return math.sqrt(sum([x ** 2 for x in self.coordinates]))
+
+    def normalize(self):
+        magnitude = self.magnitude()
+        try:
+            return self.times_scalar(1 / magnitude)
+        except ZeroDivisionError:
+            raise Exception('Cannot normalize the zero vector')
+
 
 # 加减和标量乘法
 vector1 = Vector([8.218, -9.341])
@@ -44,6 +54,18 @@ print(vector1.minus(vector2))
 vector1 = Vector([1.671, -1.012, -0.318])
 s = 7.41
 print(vector1.times_scalar(s))
+
+# 编写大小和方向函数
+print('--------------------------')
+print('编写大小和方向函数')
+vector = Vector([-0.221, 7.437])
+print(vector.magnitude())
+vector = Vector([8.813, -1.331, -6.247])
+print(vector.magnitude())
+
+vector = Vector([5.581, -2.136])
+print(vector.normalize())
+
 # print(vector.vector_dot([7.887, 4.138], [-8.802, 6.776]))
 #
 # print(vector.vector_dot([-5.955, -4.904, -1.874], [-4.496, -8.755, 7.103]))
