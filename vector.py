@@ -1,7 +1,7 @@
 import math
 from decimal import Decimal, getcontext
 
-getcontext().prec = 30
+getcontext().prec = 3
 
 
 class Vector(object):
@@ -36,9 +36,11 @@ class Vector(object):
         new_coordinates = [x * Decimal(c) for x in self.coordinates]
         return Vector(new_coordinates)
 
+    # 计算向量的大小(长度)
     def magnitude(self):
         return math.sqrt(sum([x ** 2 for x in self.coordinates]))
 
+    # 计算向量标准化
     def normalize(self):
         magnitude = self.magnitude()
         try:
@@ -64,6 +66,18 @@ class Vector(object):
                 raise Exception('Cannot compute an angle with the zero vector')
             else:
                 raise e
+
+    def is_parallel(self, v):
+        return (self.is_zero()
+                or v.is_zero()
+                or self.angle_with(v) == 0
+                or self.angle_with(v) == math.pi)
+
+    def is_zero(self, tolerance=1e-10):
+        return self.magnitude() < tolerance
+
+    def is_orthogonal(self, v, tolerance=1e-10):
+        return abs(self.dot_product(v)) < tolerance
 
 
 # 加减和标量乘法
@@ -103,17 +117,25 @@ print(vector1.angle_with(vector2))
 vector1 = Vector(['7.35', '0.221', '5.188'])
 vector2 = Vector(['2.751', '8.259', '3.985'])
 print(vector1.angle_with(vector2, True))
-#
-# print(vector.vector_angle_degree(, ))
-#
-# print(vector.is_parallel([-7.579, -7.88], [22.737, 23.64]))
-# print(vector.is_orthogonal([-7.579, -7.88], [22.737, 23.64]))
-#
-# print(vector.is_parallel([-2.029, 9.97, 4.172], [-9.231, -6.639, -7.245]))
-# print(vector.is_orthogonal([-2.029, 9.97, 4.172], [-9.231, -6.639, -7.245]))
-#
-# print(vector.is_parallel([-2.328, -7.284, -1.214], [-1.821, 1.072, -2.94]))
-# print(vector.is_orthogonal([-2.328, -7.284, -1.214], [-1.821, 1.072, -2.94]))
 
-# print(vector.is_parallel([2.118, 4.827], [0, 0]))
-# print(vector.is_orthogonal([2.118, 4.827], [0, 0]))
+
+print('--------------------------')
+print('检查是否平行或正交')
+vector1 = Vector(['-7.579', '-7.88'])
+vector2 = Vector(['22.737', '23.64'])
+print(vector1.is_parallel(vector2))
+
+vector1 = Vector(['-7.579', '-7.88'])
+vector2 = Vector(['22.737', '23.64'])
+print(vector1.is_orthogonal(vector2))
+
+vector1 = Vector(['-2.328', '-7.284', '-1.214'])
+vector2 = Vector(['-1.821', '1.072', '-2.94'])
+print(vector1.is_parallel(vector2))
+print(vector1.is_orthogonal(vector2))
+
+vector1 = Vector(['2.118', '4.827'])
+vector2 = Vector(['0', '0'])
+print(vector1.is_parallel(vector2))
+print(vector1.is_orthogonal(vector2))
+
