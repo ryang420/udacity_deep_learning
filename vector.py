@@ -6,6 +6,7 @@ getcontext().prec = 3
 
 class Vector(object):
     CANNOT_NORMALIZE_ZERO_VECTOR_MSG = 'Cannot normalize the zero vector'
+    NO_UNIQUE_PARALLEL_COMPONENT_MSG = 'no unique parallel component'
 
     def __init__(self, coordinates):
         try:
@@ -41,7 +42,7 @@ class Vector(object):
         return math.sqrt(sum([x ** 2 for x in self.coordinates]))
 
     # 计算向量标准化
-    def normalize(self):
+    def normalized(self):
         magnitude = self.magnitude()
         try:
             return self.times_scalar(1.0 / magnitude)
@@ -54,8 +55,8 @@ class Vector(object):
 
     def angle_with(self, v, in_degrees=False):
         try:
-            u1 = self.normalize()
-            u2 = v.normalize()
+            u1 = self.normalized()
+            u2 = v.normalized()
             angle_in_radians = math.acos(u1.dot_product(u2))
             if in_degrees:
                 return angle_in_radians * 180. / math.pi
@@ -78,6 +79,29 @@ class Vector(object):
 
     def is_orthogonal(self, v, tolerance=1e-10):
         return abs(self.dot_product(v)) < tolerance
+
+    # 向量v在向量b上的投影向量
+    def component_parallel_to(self, basis):
+        try:
+            u = basis.normalized()
+            weight = self.dot_product(u)
+            return u.times_scalar(weight)
+        except Exception as e:
+            if str(e) == self.CANNOT_NORMALIZE_ZERO_VECTOR_MSG:
+                raise Exception(self.NO_UNIQUE_PARALLEL_COMPONENT_MSG)
+            else:
+                raise e
+
+    # 正交向量
+    def component_orthogonal_to(self, basis):
+        try:
+            projection = self.component_parallel_to(basis)
+            return self.minus(projection)
+        except Exception as e:
+            if str(e) == self.NO_UNIQUE_PARALLEL_COMPONENT_MSG:
+                raise Exception(self.NO_UNIQUE_PARALLEL_COMPONENT_MSG)
+            else:
+                raise e
 
 
 # 加减和标量乘法
@@ -102,7 +126,7 @@ vector = Vector(['8.813', '-1.331', '-6.247'])
 print(vector.magnitude())
 
 vector = Vector(['5.581', '-2.136'])
-print(vector.normalize())
+print(vector.normalized())
 
 print('--------------------------')
 print('编写点积和夹角函数')
@@ -117,7 +141,6 @@ print(vector1.angle_with(vector2))
 vector1 = Vector(['7.35', '0.221', '5.188'])
 vector2 = Vector(['2.751', '8.259', '3.985'])
 print(vector1.angle_with(vector2, True))
-
 
 print('--------------------------')
 print('检查是否平行或正交')
@@ -139,3 +162,8 @@ vector2 = Vector(['0', '0'])
 print(vector1.is_parallel(vector2))
 print(vector1.is_orthogonal(vector2))
 
+print('--------------------------')
+print('向量投影')
+vector1 = Vector([3.039, 1.879])
+vector2 = Vector([0.825, 2.036])
+print(vector1.component_parallel_to(vector2))
