@@ -1,12 +1,13 @@
 import math
 from decimal import Decimal, getcontext
 
-getcontext().prec = 3
+getcontext().prec = 32
 
 
 class Vector(object):
     CANNOT_NORMALIZE_ZERO_VECTOR_MSG = 'Cannot normalize the zero vector'
     NO_UNIQUE_PARALLEL_COMPONENT_MSG = 'no unique parallel component'
+    ONLY_DEFINED_IN_TWO_THREE_DIMS_MSG = 'only defined in two three dimensions vector'
 
     def __init__(self, coordinates):
         try:
@@ -103,6 +104,36 @@ class Vector(object):
             else:
                 raise e
 
+    # 向量积
+    def cross_product(self, v):
+        try:
+            x_1, y_1, z_1 = self.coordinates
+            x_2, y_2, z_2 = v.coordinates
+            new_coordinates = [
+                y_1 * z_2 - y_2 * z_1,
+                -(x_1 * z_2 - x_2 * z_1),
+                x_1 * y_2 - y_1 * x_2
+            ]
+            return Vector(new_coordinates)
+        except ValueError as e:
+            msg = str(e)
+            if msg == 'need more than 2 values to unpack':
+                self_embedded_in_r3 = Vector(self.coordinates + ('0',))
+                v_embedded_in__r3 = Vector(v.coordinates + ('0',))
+                return self_embedded_in_r3.cross_product(v_embedded_in__r3)
+            elif (msg == 'too many values to unpack'
+                  or 'Need more than 1 value to unpack'):
+                raise Exception(self.ONLY_DEFINED_IN_TWO_THREE_DIMS_MSG)
+            else:
+                raise e
+
+    def area_of_parallelogram_with(self, v):
+        cross_product = self.cross_product(v)
+        return cross_product.magnitude()
+
+    def are_of_triangle_with(self, v):
+        return self.area_of_parallelogram_with(v) / Decimal('2.0')
+
 
 # 加减和标量乘法
 vector1 = Vector(['8.218', '-9.341'])
@@ -128,6 +159,7 @@ print(vector.magnitude())
 vector = Vector(['5.581', '-2.136'])
 print(vector.normalized())
 
+'''
 print('--------------------------')
 print('编写点积和夹角函数')
 vector1 = Vector(['-5.955', '-4.904', '-1.874'])
@@ -141,6 +173,7 @@ print(vector1.angle_with(vector2))
 vector1 = Vector(['7.35', '0.221', '5.188'])
 vector2 = Vector(['2.751', '8.259', '3.985'])
 print(vector1.angle_with(vector2, True))
+
 
 print('--------------------------')
 print('检查是否平行或正交')
@@ -166,4 +199,19 @@ print('--------------------------')
 print('向量投影')
 vector1 = Vector([3.039, 1.879])
 vector2 = Vector([0.825, 2.036])
-print(vector1.component_parallel_to(vector2))
+print('投影', vector1.component_parallel_to(vector2))
+
+vector1 = Vector([-9.88, -3.264, -8.159])
+vector2 = Vector([-2.155, -9.353, -9.473])
+print('正交', vector1.component_orthogonal_to(vector2))
+
+print('--------------------------')
+print('向量积')
+vector1 = Vector([-8.462, 7.893, -8.187])
+vector2 = Vector([6.984, -5.975, 4.778])
+print(vector1.cross_product(vector2))
+
+vector1 = Vector([-8.987, -9.838, 5.031])
+vector2 = Vector([-4.268, -1.861, -8.866])
+print(vector1.area_of_parallelogram_with(vector2))
+'''
