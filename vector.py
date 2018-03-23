@@ -58,7 +58,7 @@ class Vector(object):
         try:
             u1 = self.normalized()
             u2 = v.normalized()
-            angle_in_radians = math.acos(u1.dot_product(u2))
+            angle_in_radians = math.acos(Decimal(u1.dot_product(u2)).quantize(3))
             if in_degrees:
                 return angle_in_radians * 180. / math.pi
             else:
@@ -159,7 +159,7 @@ print(vector.magnitude())
 vector = Vector(['5.581', '-2.136'])
 print(vector.normalized())
 
-'''
+
 print('--------------------------')
 print('编写点积和夹角函数')
 vector1 = Vector(['-5.955', '-4.904', '-1.874'])
@@ -214,4 +214,3 @@ print(vector1.cross_product(vector2))
 vector1 = Vector([-8.987, -9.838, 5.031])
 vector2 = Vector([-4.268, -1.861, -8.866])
 print(vector1.area_of_parallelogram_with(vector2))
-'''
