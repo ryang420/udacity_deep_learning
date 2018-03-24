@@ -135,6 +135,7 @@ class Vector(object):
         return self.area_of_parallelogram_with(v) / Decimal('2.0')
 
 
+'''
 # 加减和标量乘法
 vector1 = Vector(['8.218', '-9.341'])
 vector2 = Vector(['-1.129', '2.111'])
@@ -214,3 +215,4 @@ print(vector1.cross_product(vector2))
 vector1 = Vector([-8.987, -9.838, 5.031])
 vector2 = Vector([-4.268, -1.861, -8.866])
 print(vector1.area_of_parallelogram_with(vector2))
+'''
