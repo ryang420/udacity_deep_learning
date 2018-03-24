@@ -72,9 +72,9 @@ class Line(object):
             k1 = self.constant_term
             k2 = ell.constant_term
 
-            x_numerator = Decimal(D) * k1 - Decimal(B) * k2
-            y_numerator = Decimal(-C) * k1 + Decimal(A) * k2
-            one_over_denom = Decimal('1') / Decimal(A * D - B * C).quantize(3)
+            x_numerator = D * k1 - B * k2
+            y_numerator = -C * k1 + A * k2
+            one_over_denom = Decimal('1') / (A * D - B * C)
 
             return Vector([x_numerator, y_numerator]).times_scalar(one_over_denom)
         except ZeroDivisionError:
@@ -143,4 +143,12 @@ class MyDecimal(Decimal):
 
 line1 = Line(normal_vector=Vector(['4.046', '2.836']), constant_term='1.21')
 line2 = Line(normal_vector=Vector(['10.115', '7.09']), constant_term='3.025')
+print('intersection ', line1.intersection_with(line2))
+
+line1 = Line(normal_vector=Vector(['7.204', '3.182']), constant_term='8.68')
+line2 = Line(normal_vector=Vector(['8.172', '4.114']), constant_term='9.883')
+print('intersection ', line1.intersection_with(line2))
+
+line1 = Line(normal_vector=Vector(['1.182', '5.562']), constant_term='6.744')
+line2 = Line(normal_vector=Vector(['1.773', '8.343']), constant_term='9.525')
 print('intersection ', line1.intersection_with(line2))
