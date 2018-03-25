@@ -42,7 +42,7 @@ class Plane(object):
 
     def __eq__(self, p):
         if self.normal_vector.is_zero():
-            if not ell.normal_vector.is_zero():
+            if not p.normal_vector.is_zero():
                 return False
             else:
                 diff = self.constant_term - p.constant_term
