@@ -58,7 +58,12 @@ class Vector(object):
         try:
             u1 = self.normalized()
             u2 = v.normalized()
-            angle_in_radians = math.acos(Decimal(u1.dot_product(u2)).quantize(3))
+            dot_res = u1.dot_product(u2)
+            if dot_res > 1:
+                dot_res = Decimal('1')
+            elif dot_res < -1:
+                dot_res = Decimal('-1')
+            angle_in_radians = math.acos(dot_res)
             if in_degrees:
                 return angle_in_radians * 180. / math.pi
             else:
