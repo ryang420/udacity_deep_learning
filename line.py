@@ -140,7 +140,7 @@ class MyDecimal(Decimal):
     def is_near_zero(self, eps=1e-10):
         return abs(self) < eps
 
-
+'''
 line1 = Line(normal_vector=Vector(['4.046', '2.836']), constant_term='1.21')
 line2 = Line(normal_vector=Vector(['10.115', '7.09']), constant_term='3.025')
 print('intersection ', line1.intersection_with(line2))
@@ -152,3 +152,4 @@ print('intersection ', line1.intersection_with(line2))
 line1 = Line(normal_vector=Vector(['1.182', '5.562']), constant_term='6.744')
 line2 = Line(normal_vector=Vector(['1.773', '8.343']), constant_term='9.525')
 print('intersection ', line1.intersection_with(line2))
+'''

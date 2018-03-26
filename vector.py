@@ -52,7 +52,7 @@ class Vector(object):
 
     def dot_product(self, v):
         coordinates = self.coordinates
-        return sum([x * y for x, y in zip(coordinates, v.coordinates)])
+        return Decimal(sum([x * y for x, y in zip(coordinates, v.coordinates)])).quantize(3)
 
     def angle_with(self, v, in_degrees=False):
         try:

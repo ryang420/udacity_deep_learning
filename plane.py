@@ -122,7 +122,7 @@ class MyDecimal(Decimal):
     def is_near_zero(self, eps=1e-10):
         return abs(self) < eps
 
-
+'''
 p1 = Plane(normal_vector=Vector(['-0.412', '3.806', '0.728']), constant_term='-3.46')
 p2 = Plane(normal_vector=Vector(['1.03', '-9.515', '-1.82']), constant_term='8.65')
 print('is parallel? ', p1.is_parallel_to(p2))
@@ -137,3 +137,4 @@ p1 = Plane(normal_vector=Vector(['-7.926', '8.625', '-7.212']), constant_term='-
 p2 = Plane(normal_vector=Vector(['-2.642', '2.875', '-2.404']), constant_term='-2.443')
 print('is parallel? ', p1.is_parallel_to(p2))
 print('is equal? ', p1 == p2)
+'''
