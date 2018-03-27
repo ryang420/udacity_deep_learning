@@ -66,7 +66,43 @@ class LinearSystem(object):
     def compute_triangular_form(self):
         system = deepcopy(self)
 
+        num_equations = len(self)
+        num_variables = system.dimension
+
+        j = 0
+        for i in range(num_equations):
+            while j < num_variables:
+                c = MyDecimal(system[i].normal_vector.coordinates[j])
+                if c.is_near_zero():
+                    swap_succeeded = system.swap_with_row_below(i, j)
+                    if not swap_succeeded:
+                        j += 1
+                        continue
+                system.clear_coefficients_below(i, j)
+                j += 1
+                break
+
         return system
+
+    def swap_with_row_below(self, row, col):
+        num_equations = len(self)
+
+        for k in range(row + 1, num_equations):
+            coefficient = MyDecimal(self[k].normal_vector.coordinates[col])
+            if not coefficient.is_near_zero():
+                self.swap_rows(row, k)
+                return True
+        return False
+
+    def clear_coefficients_below(self, row, col):
+        num_equations = len(self)
+        beta = MyDecimal(self[row].normal_vector.coordinates[col])
+
+        for k in range(row + 1, num_equations):
+            n = self[k].normal_vector.coordinates
+            gamma = n[col]
+            alpha = -gamma / beta
+            self.add_multiple_times_row_to_row(alpha, row, k)
 
     def __len__(self):
         return len(self.planes)
