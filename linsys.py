@@ -244,6 +244,10 @@ class Parametrization(object):
         except AssertionError:
             raise Exception(self.BASEPT_AND_DIR_VECTORS_MUST_BE_IN_SAME_DIM_MSG)
 
+    def __str__(self):
+        return 'basepoint: {} \ndirection vectors {}'.format(self.basepoint,
+                                                             [v.coordinates for v in self.direction_vectors])
+
 
 '''编写row运算函数
 p0 = Plane(normal_vector=Vector(['1', '1', '1']), constant_term='1')
@@ -400,7 +404,7 @@ if not (r[0] == Plane(normal_vector=Vector(['1', '0', '0']), constant_term=Decim
 
 
 p1 = Plane(normal_vector=Vector(['0.786', '0.786', '0.588']), constant_term='-0.714')
-p2 = Plane(normal_vector=Vector(['-0.138', '-0.138', '0.244']), constant_term='0.319')
+p2 = Plane(normal_vector=Vector(['-0.131', '-0.131', '0.244']), constant_term='0.319')
 s = LinearSystem([p1, p2])
 
 print(s.compute_solution())
