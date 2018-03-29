@@ -165,7 +165,7 @@ class LinearSystem(object):
                 pivot_var = pivot_indices[i]
                 if pivot_var < 0:
                     break
-                vector_coords[pivot_var] = -p.normal_vector[free_var]
+                vector_coords[pivot_var] = -p.normal_vector.coordinates[free_var]
             direction_vectors.append(Vector(vector_coords))
         return direction_vectors
 
@@ -393,9 +393,14 @@ if not (r[0] == Plane(normal_vector=Vector(['1', '0', '0']), constant_term=Decim
 # p3 = Plane(normal_vector=Vector(['-2.158', '3.01', '-1.727']), constant_term='-0.831')
 # s = LinearSystem([p1, p2, p3])
 
-p1 = Plane(normal_vector=Vector(['5.262', '2.739', '-9.878']), constant_term='-3.441')
-p2 = Plane(normal_vector=Vector(['5.111', '6.358', '7.638']), constant_term='-2.152')
-p3 = Plane(normal_vector=Vector(['2.016', '-9.924', '-1.367']), constant_term='-9.278')
-p4 = Plane(normal_vector=Vector(['2.167', '-13.543', '-18.883']), constant_term='-10.567')
-s = LinearSystem([p1, p2, p3, p4])
+# p1 = Plane(normal_vector=Vector(['5.262', '2.739', '-9.878']), constant_term='-3.441')
+# p2 = Plane(normal_vector=Vector(['5.111', '6.358', '7.638']), constant_term='-2.152')
+# p3 = Plane(normal_vector=Vector(['2.016', '-9.924', '-1.367']), constant_term='-9.278')
+# p4 = Plane(normal_vector=Vector(['2.167', '-13.543', '-18.883']), constant_term='-10.567')
+
+
+p1 = Plane(normal_vector=Vector(['0.786', '0.786', '0.588']), constant_term='-0.714')
+p2 = Plane(normal_vector=Vector(['-0.138', '-0.138', '0.244']), constant_term='0.319')
+s = LinearSystem([p1, p2])
+
 print(s.compute_solution())
