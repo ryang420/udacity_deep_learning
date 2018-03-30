@@ -247,19 +247,16 @@ class Parametrization(object):
     def __str__(self):
         params = ['t', 's']
         res1, res2 = [], []
-        i = 0
-        for p in self.basepoint.coordinates:
-            i = i + 1
-            res1.append('x_' + str(i) + ' = ' + str(round(p, 3)))
 
-        j = 0
-        for vectors in self.direction_vectors:
-            p = params[j]
+        for i, p in enumerate(self.basepoint.coordinates):
+            res1.append('x_' + str(i + 1) + ' = ' + str(round(p, 3)))
+
+        for i, vectors in enumerate(self.direction_vectors):
+            p = params[i]
             temp = []
             for v in vectors.coordinates:
                 temp.append(str(round(v, 3)) + p)
             res2.append(temp)
-            j = j + 1
 
         if len(res2) == 1:
             return str([str(x) + ' + ' + str(y) for x, y in zip(res1, res2[0])])
@@ -423,19 +420,19 @@ if not (r[0] == Plane(normal_vector=Vector(['1', '0', '0']), constant_term=Decim
 # p4 = Plane(normal_vector=Vector(['2.167', '-13.543', '-18.883']), constant_term='-10.567')
 # s = LinearSystem([p1, p2, p3, p4])
 
-p1 = Plane(normal_vector=Vector(['0.786', '0.786', '0.588']), constant_term='-0.714')
-p2 = Plane(normal_vector=Vector(['-0.131', '-0.131', '0.244']), constant_term='0.319')
-s = LinearSystem([p1, p2])
+# p1 = Plane(normal_vector=Vector(['0.786', '0.786', '0.588']), constant_term='-0.714')
+# p2 = Plane(normal_vector=Vector(['-0.131', '-0.131', '0.244']), constant_term='0.319')
+# s = LinearSystem([p1, p2])
 
 # p1 = Plane(normal_vector=Vector(['8.631', '5.112', '-1.816']), constant_term='-5.113')
 # p2 = Plane(normal_vector=Vector(['4.315', '11.132', '-5.27']), constant_term='-6.775')
 # p3 = Plane(normal_vector=Vector(['-2.158', '3.01', '-1.727']), constant_term='-0.831')
 # s = LinearSystem([p1, p2, p3])
 
-# p1 = Plane(normal_vector=Vector(['0.935', '1.76', '-9.365']), constant_term='-9.955')
-# p2 = Plane(normal_vector=Vector(['0.187', '0.352', '-1.873']), constant_term='-1.991')
-# p3 = Plane(normal_vector=Vector(['0.374', '0.704', '-3.746']), constant_term='-3.982')
-# p4 = Plane(normal_vector=Vector(['-0.561', '-1.056', '5.619']), constant_term='5.973')
-# s = LinearSystem([p1, p2, p3, p4])
+p1 = Plane(normal_vector=Vector(['0.935', '1.76', '-9.365']), constant_term='-9.955')
+p2 = Plane(normal_vector=Vector(['0.187', '0.352', '-1.873']), constant_term='-1.991')
+p3 = Plane(normal_vector=Vector(['0.374', '0.704', '-3.746']), constant_term='-3.982')
+p4 = Plane(normal_vector=Vector(['-0.561', '-1.056', '5.619']), constant_term='5.973')
+s = LinearSystem([p1, p2, p3, p4])
 
 print(s.compute_solution())
