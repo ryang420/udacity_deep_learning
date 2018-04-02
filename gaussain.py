@@ -370,4 +370,8 @@ Y3_d = [7.815881334374123,
         16.644498672016105]
 
 y3_d = [[y] for y in Y3_d]
-print(gj_Solve(X3_d, y3_d))
+A = matxMultiply(transpose(X3_d), X3_d)
+b = matxMultiply(transpose(X3_d), y3_d)
+print(A)
+print(b)
+print(gj_Solve(A, b, decPts=4, epsilon=1.0e-16))
