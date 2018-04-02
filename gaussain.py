@@ -37,20 +37,27 @@ def gj_Solve(A, b, decPts=4, epsilon=1.0e-16):
 
         # 寻找列c中 对角线以及对角线以下所有元素（行 c~N）的绝对值的最大值
         max_value_key = max(dic.items(), key=lambda x: x[1])[0]
+        max_value = max(dic.items(), key=lambda x: x[1])[1]
 
         # 如果绝对值最大值为0, 那么A为奇异矩阵，返回None
-        if max_value_key < epsilon:
+        if max_value < epsilon:
             return None
 
         if (len(dic)) != 1:
             swapRows(Ab, j, max_value_key + j)
 
         # 当前列的对角线元素缩放为1
-        Ab[j] = [round(x / Ab[j][0], decPts) for x in Ab[j]]
+        Ab[j] = [x / Ab[j][j] for x in Ab[j]]
 
         # 当前列的其他元素消为0
+        for i in range(j):
+            addScaledRow(Ab, i, j, -1 * (Ab[i][j] / Ab[j][j]))
+
         for i in range(j + 1, len(Ab)):
-            addScaledRow(Ab, i, j, -1 * (Ab[i][j] / Ab[i][j]))
+            addScaledRow(Ab, i, j, -1 * (Ab[i][j] / Ab[j][j]))
+
+    # 每个元素四舍五入到特定小数数位
+    matxRound(Ab, decPts)
 
     return Ab
 
