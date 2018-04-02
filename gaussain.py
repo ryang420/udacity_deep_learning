@@ -33,7 +33,7 @@ def gj_Solve(A, b, decPts=4, epsilon=1.0e-16):
     for j in range(len(Ab)):
         dic = {}
         for i in range(len(Ab) - j):
-            dic[i] = max([abs(x) for x in Ab[i + j][:i + j + 1]])
+            dic[i] = abs(Ab[i][j])
 
         # 寻找列c中 对角线以及对角线以下所有元素（行 c~N）的绝对值的最大值
         max_value_key = max(dic.items(), key=lambda x: x[1])[0]
@@ -59,16 +59,27 @@ def gj_Solve(A, b, decPts=4, epsilon=1.0e-16):
     # 每个元素四舍五入到特定小数数位
     matxRound(Ab, decPts)
 
-    return Ab
+    return [[x[-1]] for x in Ab]
 
 
 A = [
-    [-2, -7, -3],
-    [5, 6, 0],
-    [-8, -8, -8]
-]
+    [-7, -1, 3, -5, -5, -9, 6, 0],
+    [2, -8, 1, 2, 4, -10, 4, 2],
+    [8, -8, -3, -6, -10, 3, -8, 3],
+    [-1, -2, -1, 2, -9, -6, -2, 4],
+    [5, 7, 0, -7, -5, 5, 1, 5],
+    [9, -4, 5, -1, 2, 3, 7, 6],
+    [0, -10, -10, -9, 5, 6, -10, 1]]
 
-b = [[1], [1], [1]]
+b = [
+    [1],
+    [0],
+    [2],
+    [3],
+    [4],
+    [5],
+    [6]
+]
 
 # {0: 2, 1: 6, 2: 8}
 print(gj_Solve(A, b))
