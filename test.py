@@ -36,7 +36,7 @@ class LinearRegressionTestCase(unittest.TestCase):
 
         for j in range(len(Ab)):
             dic = {}
-            for i in range(len(Ab) - j):
+            for i in range(j, len(Ab)):
                 dic[i] = abs(Ab[i][j])
 
             # 寻找列c中 对角线以及对角线以下所有元素（行 c~N）的绝对值的最大值
@@ -47,13 +47,10 @@ class LinearRegressionTestCase(unittest.TestCase):
             if max_value < epsilon:
                 return None
 
-            if (len(dic)) != 1:
-                self.swapRows(Ab, j, max_value_key + j)
+            if (len(dic)) != 1 and j != max_value_key:
+                self.swapRows(Ab, j, max_value_key)
 
             # 当前列的对角线元素缩放为1
-            temp = Ab[j][j]
-            if temp == 0:
-                print(Ab)
             Ab[j] = [x / Ab[j][j] for x in Ab[j]]
 
             # 当前列的其他元素消为0

@@ -32,7 +32,7 @@ def gj_Solve(A, b, decPts=4, epsilon=1.0e-16):
 
     for j in range(len(Ab)):
         dic = {}
-        for i in range(len(Ab) - j):
+        for i in range(j, len(Ab)):
             dic[i] = abs(Ab[i][j])
 
         # 寻找列c中 对角线以及对角线以下所有元素（行 c~N）的绝对值的最大值
@@ -43,8 +43,8 @@ def gj_Solve(A, b, decPts=4, epsilon=1.0e-16):
         if max_value < epsilon:
             return None
 
-        if (len(dic)) != 1:
-            swapRows(Ab, j, max_value_key + j)
+        if (len(dic)) != 1 and j != max_value_key:
+            swapRows(Ab, j, max_value_key)
 
         # 当前列的对角线元素缩放为1
         Ab[j] = [x / Ab[j][j] for x in Ab[j]]
