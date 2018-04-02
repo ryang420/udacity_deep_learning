@@ -37,7 +37,7 @@ class LinearRegressionTestCase(unittest.TestCase):
         for j in range(len(Ab)):
             dic = {}
             for i in range(len(Ab) - j):
-                dic[i] = max([abs(x) for x in Ab[i + j][:i + j + 1]])
+                dic[i] = abs(Ab[i][j])
 
             # 寻找列c中 对角线以及对角线以下所有元素（行 c~N）的绝对值的最大值
             max_value_key = max(dic.items(), key=lambda x: x[1])[0]
