@@ -369,9 +369,10 @@ Y3_d = [7.815881334374123,
         19.301848212650636,
         16.644498672016105]
 
+x3_d = augmentMatrix(X3_d, [[1]] * len(X3_d))
 y3_d = [[y] for y in Y3_d]
-A = matxMultiply(transpose(X3_d), X3_d)
-b = matxMultiply(transpose(X3_d), y3_d)
+A = matxMultiply(transpose(x3_d), x3_d)
+b = matxMultiply(transpose(x3_d), y3_d)
 print(A)
 print(b)
 print(gj_Solve(A, b, decPts=4, epsilon=1.0e-16))
